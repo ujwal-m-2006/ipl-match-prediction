@@ -4,8 +4,8 @@
 PYTHON ?= python
 
 .DEFAULT_GOAL := help
-.PHONY: help install setup ingest ingest-fast refresh train train-fast eda \
-        dashboard api test test-fast lint clean reset docker
+.PHONY: help install setup verify verify-quick ingest ingest-fast refresh train \
+        train-fast eda dashboard api test test-fast lint clean reset docker
 
 help:  ## Show this help
 	@grep -hE '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) \
@@ -18,6 +18,12 @@ install:  ## Install dependencies
 setup: install  ## Install, create the schema and copy .env
 	@test -f .env || cp .env.example .env
 	$(PYTHON) scripts/init_db.py
+
+verify:  ## RUN BEFORE EVERY DEMO - checks every page, button, endpoint and test
+	$(PYTHON) scripts/verify.py
+
+verify-quick:  ## Faster verification (skips clicks, API and pytest)
+	$(PYTHON) scripts/verify.py --quick
 
 ingest:  ## Collect all data (first run takes ~20 minutes)
 	$(PYTHON) scripts/ingest.py

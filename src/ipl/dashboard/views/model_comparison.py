@@ -151,7 +151,7 @@ def _task_panel(task: str, payload: dict) -> None:
                 colors=colors, orientation="h", height=360,
                 text_format=".4f", x_title=metric_label, y_title="",
             ),
-            use_container_width=True,
+            width="stretch",
         )
         st.caption(f"The selected model ({best}) is highlighted.")
 
@@ -204,7 +204,7 @@ def _task_panel(task: str, payload: dict) -> None:
                     title="Predicted vs observed win rate",
                     x_title="Confidence bucket", y_title="%",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             st.caption(
                 "The two lines should track each other. Where 'observed' sits below "
@@ -234,7 +234,7 @@ def _task_panel(task: str, payload: dict) -> None:
                     colors=[CATEGORICAL[2]] * len(frame_imp),
                     text_format=".2f", x_title="Relative importance (%)", y_title="",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(
                 frame_imp[["feature", "importance_pct"]].rename(

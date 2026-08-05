@@ -57,3 +57,6 @@ APScheduler>=3.10
 # --- Tests / tooling --------------------------------------------------------
 pytest>=7.4
 pytest-cov>=4.1
+# Required by starlette's TestClient, which the API tests and the CI smoke job
+# use. Without it `from fastapi.testclient import TestClient` raises at import.
+httpx2>=2.9

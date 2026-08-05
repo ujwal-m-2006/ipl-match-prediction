@@ -96,6 +96,114 @@ def test_theme_palette_slots_are_distinct() -> None:
     assert len(CATEGORICAL) == len(set(CATEGORICAL)) == 8
 
 
+class TestFormatValues:
+    """Regression tests for the chart data-label formatter.
+
+    SQL aggregates return "integer" columns as floats, so an integer format
+    spec must not raise -- ``format(14.0, "d")`` does, which previously took
+    down the whole Schedule page over a cosmetic bar label.
+    """
+
+    def test_integer_spec_accepts_floats(self) -> None:
+        import pandas as pd
+
+        from ipl.dashboard.theme import format_values
+
+        assert format_values(pd.Series([14.0, 2.0, 0.0]), "d") == ["14", "2", "0"]
+
+    def test_integer_spec_rounds_rather_than_truncating(self) -> None:
+        import pandas as pd
+
+        from ipl.dashboard.theme import format_values
+
+        assert format_values(pd.Series([2.6]), "d") == ["3"]
+
+    def test_nulls_render_as_empty_labels(self) -> None:
+        import numpy as np
+        import pandas as pd
+
+        from ipl.dashboard.theme import format_values
+
+        assert format_values(pd.Series([1.0, np.nan, 3.0]), "d") == ["1", "", "3"]
+
+    def test_float_spec_still_works(self) -> None:
+        import pandas as pd
+
+        from ipl.dashboard.theme import format_values
+
+        assert format_values(pd.Series([0.8974]), ".4f") == ["0.8974"]
+
+    def test_no_spec_returns_none(self) -> None:
+        import pandas as pd
+
+        from ipl.dashboard.theme import format_values
+
+        assert format_values(pd.Series([1, 2]), None) is None
+
+    def test_bar_chart_with_float_counts_does_not_raise(self) -> None:
+        """The exact shape that crashed the Schedule page's points chart."""
+        import pandas as pd
+
+        from ipl.dashboard.theme import bar_chart
+
+        frame = pd.DataFrame({"team": ["A", "B"], "points": [14.0, 0.0]})
+        figure = bar_chart(frame, "team", "points", text_format="d")
+        assert figure is not None
+
+
+class TestStatTable:
+    """The two-column metric tables must be Arrow-serialisable.
+
+    A column mixing ints, floats and NaN becomes ``object`` dtype, which Arrow
+    cannot convert -- Streamlit recovers but logs a traceback, which looks like
+    a crash to anyone watching the console.
+    """
+
+    def test_values_are_all_strings(self) -> None:
+        import numpy as np
+
+        from ipl.dashboard.views._common import stat_table
+
+        table = stat_table([("Runs", 500), ("Average", 34.567), ("Missing", np.nan)])
+        assert table["Value"].map(type).eq(str).all()
+
+    def test_missing_values_render_as_a_dash(self) -> None:
+        import numpy as np
+
+        from ipl.dashboard.views._common import stat_table
+
+        table = stat_table([("Average", np.nan), ("Economy", None)])
+        assert list(table["Value"]) == ["—", "—"]
+
+    def test_whole_floats_lose_the_decimal(self) -> None:
+        from ipl.dashboard.views._common import stat_table
+
+        table = stat_table([("Innings", 12.0), ("Economy", 7.25)])
+        assert list(table["Value"]) == ["12", "7.25"]
+
+    def test_frame_is_arrow_serialisable(self) -> None:
+        import numpy as np
+
+        pa = pytest.importorskip("pyarrow")
+        from ipl.dashboard.views._common import stat_table
+
+        table = stat_table([("A", 1), ("B", 2.5), ("C", np.nan), ("D", "text")])
+        # This is the conversion Streamlit performs internally.
+        pa.Table.from_pandas(table)
+
+
+def test_no_deprecated_streamlit_arguments() -> None:
+    """`use_container_width` is past its removal date and warns on every call."""
+    import pathlib
+
+    offenders = [
+        str(path)
+        for path in pathlib.Path("src").rglob("*.py")
+        if "use_container_width" in path.read_text(encoding="utf-8")
+    ]
+    assert not offenders, f"use `width=` instead in: {offenders}"
+
+
 def test_team_colours_cover_every_active_franchise() -> None:
     from ipl.constants import ACTIVE_TEAMS, TEAM_COLORS
 

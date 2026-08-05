@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
+import numpy as np
 import pandas as pd
 import streamlit as st
 
@@ -83,7 +84,7 @@ def show_table(
     # Streamlit rejects an explicit height=None, so the argument is only passed
     # when the caller actually asked for a fixed height.
     kwargs: dict = {
-        "use_container_width": True,
+        "width": "stretch",
         "hide_index": hide_index,
         "column_config": column_config or {},
     }
@@ -101,6 +102,29 @@ def metric_row(metrics: list[tuple[str, object, str | None]]) -> None:
     for column, (label, value, delta) in zip(columns, metrics):
         with column:
             st.metric(label, value, delta)
+
+
+def stat_table(rows: list[tuple[str, object]]) -> pd.DataFrame:
+    """Build a two-column metric/value table with values rendered as text.
+
+    A column mixing ints, floats and NaN lands in pandas as ``object`` dtype,
+    which Arrow cannot serialise -- Streamlit recovers, but it logs a noisy
+    traceback to the console. Formatting to strings up front avoids that and
+    also renders missing values as an em dash instead of ``NaN``.
+    """
+    formatted = []
+    for label, value in rows:
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            text = "—"
+        elif isinstance(value, float):
+            # Whole-valued floats (counts read back from SQL) lose the ".0".
+            text = f"{value:,.0f}" if float(value).is_integer() else f"{value:,.2f}"
+        elif isinstance(value, (int, np.integer)):
+            text = f"{value:,}"
+        else:
+            text = str(value)
+        formatted.append({"Metric": label, "Value": text})
+    return pd.DataFrame(formatted)
 
 
 def format_percent(value: float | None, decimals: int = 1) -> str:

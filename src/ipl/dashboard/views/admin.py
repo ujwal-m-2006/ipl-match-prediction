@@ -15,7 +15,7 @@ from ...constants import CRICSHEET_JSON_URL, FEED_BASE_URL, IPL_COMPETITIONS, IP
 from ...models.persistence import list_artifacts
 from ...models.registry import describe_availability
 from .. import data
-from ._common import metric_row, page_header, show_table
+from ._common import metric_row, page_header, show_table, stat_table
 
 SESSION_KEY = "admin_authenticated"
 
@@ -41,8 +41,15 @@ def render() -> None:
 
 
 # ---------------------------------------------------------------------------
-def _authenticate(settings) -> bool:  # noqa: ANN001
-    """Password-gate the write actions."""
+def _authenticate(settings, scope: str) -> bool:  # noqa: ANN001
+    """Password-gate the write actions.
+
+    Streamlit renders every tab's body on each run, so this function executes
+    once per calling tab. Widget keys must therefore be namespaced by ``scope``
+    -- two widgets sharing a key raises ``StreamlitDuplicateElementKey`` and
+    takes the whole page down. Unlocking in either tab unlocks both, since the
+    result is stored in session state.
+    """
     if st.session_state.get(SESSION_KEY):
         return True
 
@@ -52,8 +59,10 @@ def _authenticate(settings) -> bool:  # noqa: ANN001
             "in your `.env` (or Streamlit secrets) before deploying publicly."
         )
 
-    password = st.text_input("Admin password", type="password", key="admin_password_input")
-    if st.button("Unlock", key="admin_unlock"):
+    password = st.text_input(
+        "Admin password", type="password", key=f"admin_password_input_{scope}"
+    )
+    if st.button("Unlock", key=f"admin_unlock_{scope}"):
         if password == settings.admin_password:
             st.session_state[SESSION_KEY] = True
             st.rerun()
@@ -149,7 +158,7 @@ def _refresh(settings) -> None:  # noqa: ANN001
         """
     )
 
-    if not _authenticate(settings):
+    if not _authenticate(settings, "refresh"):
         return
 
     seasons = sorted(IPL_COMPETITIONS)
@@ -219,7 +228,7 @@ def _train(settings) -> None:  # noqa: ANN001
         st.warning("Load data before training.")
         return
 
-    if not _authenticate(settings):
+    if not _authenticate(settings, "train"):
         return
 
     seasons = data.seasons()
@@ -293,7 +302,9 @@ def _config(settings) -> None:  # noqa: ANN001
         ("Random seed", settings.random_state),
         ("Log level", settings.log_level),
     ]
-    show_table(pd.DataFrame(rows, columns=["Setting", "Value"]))
+    # Mixed str/int/float/bool values would land as an object column, which
+    # Arrow cannot serialise; stat_table renders them as text instead.
+    show_table(stat_table(rows).rename(columns={"Metric": "Setting"}))
 
     st.divider()
     st.subheader("Data sources")

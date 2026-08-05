@@ -122,7 +122,7 @@ def _winner(service) -> None:  # noqa: ANN001
             team1, team2, prediction.team1_win_probability,
             color_left=team_color(team1), color_right=team_color(team2),
         ),
-        use_container_width=True,
+        width="stretch",
     )
 
     metric_row(
@@ -228,7 +228,7 @@ def _score(service) -> None:  # noqa: ANN001
                 by_season, "season", {"Average first-innings total": "runs"},
                 title="", x_title="Season", y_title="Runs",
             ),
-            use_container_width=True,
+            width="stretch",
         )
         metric_row(
             [
@@ -302,7 +302,7 @@ def _chase(service) -> None:  # noqa: ANN001
                 f"{batting} win probability",
                 color=team_color(batting),
             ),
-            use_container_width=True,
+            width="stretch",
         )
     with right:
         metric_row(
@@ -323,7 +323,7 @@ def _chase(service) -> None:  # noqa: ANN001
             batting, bowling, prediction.chase_success_probability,
             color_left=team_color(batting), color_right=team_color(bowling),
         ),
-        use_container_width=True,
+        width="stretch",
     )
     st.caption(f"Model: {prediction.model}")
 
@@ -352,7 +352,7 @@ def _chase(service) -> None:  # noqa: ANN001
                 x_title="Runs on the board", y_title="Win %",
                 colors=[team_color(batting)],
             ),
-            use_container_width=True,
+            width="stretch",
         )
 
 
@@ -415,7 +415,7 @@ def _player_of_match(service) -> None:  # noqa: ANN001
             colors=[CATEGORICAL[6]] * len(ranking),
             text_format=".1f", x_title="Probability (%)", y_title="",
         ),
-        use_container_width=True,
+        width="stretch",
     )
     show_table(
         ranking.rename(
@@ -482,7 +482,7 @@ def _playoffs(service) -> None:  # noqa: ANN001
             orientation="h", height=max(400, 34 * len(table)),
             text_format=".1f", x_title="Qualification probability (%)", y_title="",
         ),
-        use_container_width=True,
+        width="stretch",
     )
 
     show_table(

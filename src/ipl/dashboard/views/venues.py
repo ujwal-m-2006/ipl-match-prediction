@@ -59,7 +59,7 @@ def _overview(matches: pd.DataFrame, innings: pd.DataFrame) -> None:
                 colors=[CATEGORICAL[0]] * len(scoring),
                 text_format=".0f", x_title="Runs", y_title="",
             ),
-            use_container_width=True,
+            width="stretch",
         )
 
     chase = summary.dropna(subset=["chase_win_pct"]).sort_values("chase_win_pct")
@@ -71,7 +71,7 @@ def _overview(matches: pd.DataFrame, innings: pd.DataFrame) -> None:
                 title="Who wins here: batting first or chasing?",
                 x_title="", y_title="Win %", height=max(420, 30 * len(chase)),
             ),
-            use_container_width=True,
+            width="stretch",
         )
         st.caption(
             "A ground well above 50% for chasing suits sides bowling first "
@@ -143,7 +143,7 @@ def _detail(matches: pd.DataFrame, innings: pd.DataFrame) -> None:
                     orientation="h", height=max(360, 30 * len(performance)),
                     text_format=".1f", x_title="Win %", y_title="",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(
                 performance.rename(
@@ -175,7 +175,7 @@ def _detail(matches: pd.DataFrame, innings: pd.DataFrame) -> None:
                         colors=[CATEGORICAL[0], CATEGORICAL[1], CATEGORICAL[7]],
                         text_format=".2f", x_title="", y_title="Runs per over",
                     ),
-                    use_container_width=True,
+                    width="stretch",
                 )
                 show_table(
                     phases.rename(

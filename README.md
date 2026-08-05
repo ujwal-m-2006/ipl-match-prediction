@@ -24,6 +24,7 @@ of six algorithms, a multi-page Streamlit dashboard and a documented REST API.
 - [Configuration](#configuration)
 - [Testing](#testing)
 - [Deployment](#deployment)
+- [Demonstrating the project](#demonstrating-the-project)
 - [Keeping data fresh](#keeping-data-fresh)
 - [Limitations](#limitations)
 - [Licence & attribution](#licence--attribution)
@@ -120,6 +121,12 @@ Train every model and keep the best of each:
 
 ```bash
 python scripts/train_models.py
+```
+
+Check that everything works (51 checks, ~90 seconds):
+
+```bash
+python scripts/verify.py
 ```
 
 Launch the dashboard:
@@ -421,11 +428,34 @@ Every setting is an environment variable with a working default; see
 
 ## Testing
 
+Two layers, because they catch different things.
+
+### `scripts/verify.py` — end-to-end, against the real database
+
+```bash
+python scripts/verify.py
+```
+
+**51 checks in ~90 seconds.** This is the one to run before a demo or a
+deployment. It verifies dependencies, database contents, trained artefacts,
+every prediction path, **all nine dashboard pages rendered against the real
+1,246-match database**, **every button on every page**, fourteen API endpoints
+including their error paths, and the pytest suite. It prints one verdict and
+exits non-zero on any failure.
+
+This layer exists because the unit tests run against an *empty* database, so on
+their own they only prove the "no data" path works. Three real crashes were
+found only by rendering pages against real data — a chart label formatter that
+raised on float counts, a duplicate widget key on the Admin page, and an Arrow
+serialisation error on mixed-type tables.
+
+### `pytest` — isolated correctness
+
 ```bash
 pytest
 ```
 
-**226 tests**, covering:
+**231 tests**, covering:
 
 - **Parsing** — over notation (`19.4` overs is 118 balls, not 116), franchise
   alias folding, result and dismissal strings, placeholder sentinels
@@ -470,6 +500,19 @@ Full guide, including the GitHub Actions refresh job:
 [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 ---
+
+## Demonstrating the project
+
+[`docs/DEMO_GUIDE.md`](docs/DEMO_GUIDE.md) is a presentation runbook: a
+pre-flight command, a 10-minute walkthrough with what to say at each screen,
+the questions an examiner is likely to ask (and honest answers), and a recovery
+table for when something misbehaves live.
+
+Always start with:
+
+```bash
+python scripts/verify.py
+```
 
 ## Keeping data fresh
 

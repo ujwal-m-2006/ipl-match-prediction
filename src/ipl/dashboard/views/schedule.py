@@ -119,7 +119,7 @@ def _standings(matches: pd.DataFrame, innings: pd.DataFrame, season: int) -> Non
             orientation="h", height=420, text_format="d",
             x_title="Points", y_title="",
         ),
-        use_container_width=True,
+        width="stretch",
     )
 
 

@@ -70,7 +70,7 @@ def _profile(teams: list[str]) -> None:
                     title=f"{team} — win rate by season",
                     x_title="Season", y_title="Win %",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(
                 seasonal[["season", "matches", "wins", "losses", "win_pct"]].rename(
@@ -96,7 +96,7 @@ def _profile(teams: list[str]) -> None:
                     title=f"{team} — form over the last 40 matches",
                     x_title="Match number", y_title="Win %",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             last10 = timeline.tail(10)[
                 ["match_date", "opponent", "venue", "won"]
@@ -133,7 +133,7 @@ def _profile(teams: list[str]) -> None:
                     colors=[team_color(team)] * len(batters),
                     text_format=",d", x_title="Runs", y_title="",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(
                 batters[["player", "innings", "runs", "average", "strike_rate",
@@ -158,7 +158,7 @@ def _profile(teams: list[str]) -> None:
                     colors=[team_color(team)] * len(bowlers),
                     text_format="d", x_title="Wickets", y_title="",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(
                 bowlers[["player", "innings", "wickets", "average", "economy",
@@ -213,7 +213,7 @@ def _compare(teams: list[str]) -> None:
             orientation="h", height=380, text_format=".1f",
             x_title="Win %", y_title="",
         ),
-        use_container_width=True,
+        width="stretch",
     )
 
     st.plotly_chart(
@@ -229,7 +229,7 @@ def _compare(teams: list[str]) -> None:
             title="Win rate by situation",
             x_title="", y_title="Win %",
         ),
-        use_container_width=True,
+        width="stretch",
     )
 
     st.subheader("Win rate by season")
@@ -245,6 +245,6 @@ def _compare(teams: list[str]) -> None:
                 colors=team_palette(present),
                 x_title="Season", y_title="Win %",
             ),
-            use_container_width=True,
+            width="stretch",
         )
         show_table(pivot)

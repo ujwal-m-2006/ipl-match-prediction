@@ -23,6 +23,7 @@ from ._common import (
     require_data,
     season_filter,
     show_table,
+    stat_table,
 )
 
 
@@ -76,7 +77,7 @@ def _leaderboards() -> None:
                     colors=[CATEGORICAL[2]] * len(top),
                     text_format=",d", x_title="Runs", y_title="",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(
                 leaders.head(50)[
@@ -106,7 +107,7 @@ def _leaderboards() -> None:
                     colors=[CATEGORICAL[7]] * len(top),
                     text_format="d", x_title="Wickets", y_title="",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(
                 leaders.head(50)[
@@ -165,18 +166,18 @@ def _profile() -> None:
         if bat:
             st.markdown("**Batting**")
             show_table(
-                pd.DataFrame(
+                stat_table(
                     [
-                        {"Metric": "Innings", "Value": bat.get("innings")},
-                        {"Metric": "Runs", "Value": bat.get("runs")},
-                        {"Metric": "Average", "Value": bat.get("average")},
-                        {"Metric": "Strike rate", "Value": bat.get("strike_rate")},
-                        {"Metric": "Highest score", "Value": bat.get("highest_score")},
-                        {"Metric": "Fifties", "Value": bat.get("fifties")},
-                        {"Metric": "Hundreds", "Value": bat.get("hundreds")},
-                        {"Metric": "Fours", "Value": bat.get("fours")},
-                        {"Metric": "Sixes", "Value": bat.get("sixes")},
-                        {"Metric": "Boundary %", "Value": bat.get("boundary_pct")},
+                        ("Innings", bat.get("innings")),
+                        ("Runs", bat.get("runs")),
+                        ("Average", bat.get("average")),
+                        ("Strike rate", bat.get("strike_rate")),
+                        ("Highest score", bat.get("highest_score")),
+                        ("Fifties", bat.get("fifties")),
+                        ("Hundreds", bat.get("hundreds")),
+                        ("Fours", bat.get("fours")),
+                        ("Sixes", bat.get("sixes")),
+                        ("Boundary %", bat.get("boundary_pct")),
                     ]
                 )
             )
@@ -184,17 +185,17 @@ def _profile() -> None:
         if bowl:
             st.markdown("**Bowling**")
             show_table(
-                pd.DataFrame(
+                stat_table(
                     [
-                        {"Metric": "Innings", "Value": bowl.get("innings")},
-                        {"Metric": "Overs", "Value": bowl.get("overs")},
-                        {"Metric": "Wickets", "Value": bowl.get("wickets")},
-                        {"Metric": "Average", "Value": bowl.get("average")},
-                        {"Metric": "Economy", "Value": bowl.get("economy")},
-                        {"Metric": "Strike rate", "Value": bowl.get("strike_rate")},
-                        {"Metric": "Best (wickets)", "Value": bowl.get("best_wickets")},
-                        {"Metric": "4-wicket hauls", "Value": bowl.get("four_wicket_hauls")},
-                        {"Metric": "5-wicket hauls", "Value": bowl.get("five_wicket_hauls")},
+                        ("Innings", bowl.get("innings")),
+                        ("Overs", bowl.get("overs")),
+                        ("Wickets", bowl.get("wickets")),
+                        ("Average", bowl.get("average")),
+                        ("Economy", bowl.get("economy")),
+                        ("Strike rate", bowl.get("strike_rate")),
+                        ("Best (wickets)", bowl.get("best_wickets")),
+                        ("4-wicket hauls", bowl.get("four_wicket_hauls")),
+                        ("5-wicket hauls", bowl.get("five_wicket_hauls")),
                     ]
                 )
             )
@@ -211,7 +212,7 @@ def _profile() -> None:
                     trend, "season", {"Runs": "runs"},
                     title="Runs by season", x_title="Season", y_title="Runs",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
         if "wickets" in trend.columns:
             # Wickets live on a different scale from runs, so they get their own
@@ -222,7 +223,7 @@ def _profile() -> None:
                     title="Wickets by season", x_title="Season", y_title="Wickets",
                     colors=[CATEGORICAL[7]],
                 ),
-                use_container_width=True,
+                width="stretch",
             )
         show_table(trend)
 
@@ -287,7 +288,7 @@ def _compare() -> None:
             {"Runs": "runs"},
             title="Career runs", x_title="", y_title="Runs",
         ),
-        use_container_width=True,
+        width="stretch",
     )
     st.plotly_chart(
         grouped_bar_chart(
@@ -296,7 +297,7 @@ def _compare() -> None:
             title="Career wickets", x_title="", y_title="Wickets",
             colors=[CATEGORICAL[7]],
         ),
-        use_container_width=True,
+        width="stretch",
     )
 
     st.subheader("Runs by season")
@@ -317,6 +318,6 @@ def _compare() -> None:
                 pivot, "season", {p: p for p in present},
                 title="Runs by season", x_title="Season", y_title="Runs",
             ),
-            use_container_width=True,
+            width="stretch",
         )
         show_table(pivot)

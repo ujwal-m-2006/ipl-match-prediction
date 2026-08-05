@@ -63,7 +63,7 @@ def render() -> None:
             color_left=team_color(team_a),
             color_right=team_color(team_b),
         ),
-        use_container_width=True,
+        width="stretch",
     )
     if record["no_result"]:
         st.caption(f"{record['no_result']} meeting(s) ended without a result.")
@@ -87,7 +87,7 @@ def render() -> None:
                     colors=team_palette([team_a, team_b]),
                     x_title="Season", y_title="Wins",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(
                 renamed.rename(columns={"season": "Season", "matches": "Meetings"})
@@ -106,7 +106,7 @@ def render() -> None:
                     colors=team_palette([team_a, team_b]),
                     x_title="", y_title="Wins", height=460,
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(
                 renamed.rename(columns={"venue": "Venue", "matches": "Meetings"})
@@ -161,6 +161,6 @@ def render() -> None:
                 team_a, team_b, prediction.team1_win_probability,
                 color_left=team_color(team_a), color_right=team_color(team_b),
             ),
-            use_container_width=True,
+            width="stretch",
         )
         st.caption(f"Model: {prediction.model}")

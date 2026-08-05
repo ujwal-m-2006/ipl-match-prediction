@@ -80,7 +80,7 @@ def render() -> None:
                     orientation="h", height=380, text_format="d",
                     x_title="Titles", y_title="",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
 
     st.divider()
@@ -102,7 +102,7 @@ def render() -> None:
                     title="Average first-innings total by season",
                     x_title="Season", y_title="Runs",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             # Boundaries are a second measure on a different scale, so they get
             # their own chart rather than a second y-axis.
@@ -113,7 +113,7 @@ def render() -> None:
                     title="Boundaries per first innings",
                     x_title="Season", y_title="Count",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(trend, caption="Underlying figures for the charts above.")
 
@@ -131,7 +131,7 @@ def render() -> None:
                     title="Win rate: batting first vs chasing",
                     x_title="Season", y_title="Win %",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             show_table(advantage)
 
@@ -151,7 +151,7 @@ def render() -> None:
                     title="Does winning the toss help?",
                     x_title="Season", y_title="Win %",
                 ),
-                use_container_width=True,
+                width="stretch",
             )
             st.caption(
                 "A value near 50% means the toss carries no advantage in that season."

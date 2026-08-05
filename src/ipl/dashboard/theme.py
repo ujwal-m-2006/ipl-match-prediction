@@ -72,6 +72,33 @@ STATUS = {
 FONT_FAMILY = 'system-ui, -apple-system, "Segoe UI", sans-serif'
 
 
+def format_values(values: pd.Series, spec: str | None) -> list[str] | None:
+    """Format a numeric column for direct data labels, defensively.
+
+    Chart data arrives from SQL aggregates, so an "integer" column is routinely
+    a float (``14.0``) and may contain nulls. ``format(14.0, "d")`` raises, which
+    would take down the whole page for a cosmetic label -- so integer specs
+    round first, nulls render as an empty label, and anything unexpected falls
+    back to ``str`` rather than propagating an exception.
+    """
+    if spec is None:
+        return None
+
+    numeric = pd.to_numeric(values, errors="coerce")
+    integral = spec.endswith("d")
+
+    labels: list[str] = []
+    for value in numeric:
+        if pd.isna(value):
+            labels.append("")
+            continue
+        try:
+            labels.append(format(int(round(value)) if integral else float(value), spec))
+        except (ValueError, TypeError):
+            labels.append(str(value))
+    return labels
+
+
 def team_palette(teams: Sequence[str]) -> list[str]:
     """Brand colours for a list of franchises, in the order given."""
     return [TEAM_COLORS.get(team, DEFAULT_TEAM_COLOR) for team in teams]
@@ -174,7 +201,7 @@ def bar_chart(
                 "line": {"width": 1.5, "color": "rgba(255,255,255,0.9)"},
                 "cornerradius": 4,
             },
-            text=data[y].map(lambda v: format(v, text_format)) if text_format else None,
+            text=format_values(data[y], text_format),
             textposition="outside",
             textfont={"color": INK_SECONDARY, "size": 11},
             hovertemplate=hover_template or "%{x}<br>%{y}<extra></extra>",
