@@ -1,0 +1,58 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# --- Environment / secrets ---
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# --- Project data artefacts ---
+# Raw feed payloads and the local SQLite DB are reproducible: never commit them.
+data/raw/
+data/interim/
+data/external/
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+*.db-journal
+
+# SQLite sidecar files created by WAL mode.
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Trained models are large binaries; regenerate with `make train`.
+models/artifacts/
+models/*.pkl
+models/*.joblib
+
+# Generated reports
+reports/figures/
+reports/*.html
+
+# Runtime logs
+logs/
+
+# --- Tooling ---
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

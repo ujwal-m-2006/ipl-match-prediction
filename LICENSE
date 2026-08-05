@@ -1,0 +1,34 @@
+MIT License
+
+Copyright (c) 2026 UJWAL M
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+DATA ATTRIBUTION
+
+Match data is collected from the official Indian Premier League website
+(https://www.iplt20.com/) via its public JSON feeds, supplemented for the
+2008-2018 seasons by Cricsheet (https://cricsheet.org/), which publishes under
+the Open Data Commons Attribution License.
+
+This project is an independent educational work. It is not affiliated with,
+endorsed by, or connected to the BCCI or the Indian Premier League. All
+trademarks are the property of their respective owners.

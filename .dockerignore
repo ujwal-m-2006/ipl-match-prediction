@@ -1,0 +1,37 @@
+# Keep the build context small and secrets out of the image.
+.git/
+.github/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+.mypy_cache/
+
+# Data and models are mounted as volumes or rebuilt inside the container.
+data/
+models/artifacts/
+logs/
+reports/
+notebooks/
+
+# Secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Docs are not needed at runtime.
+docs/
+tests/
+*.md
+!README.md

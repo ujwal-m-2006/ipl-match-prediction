@@ -1,0 +1,59 @@
+# ---------------------------------------------------------------------------
+# IPL Match Prediction & Analytics System - Python dependencies
+#
+# Tested on Python 3.11 - 3.13. (Python 3.14 works, but LightGBM/CatBoost
+# wheels may not be published for it yet - both are optional at runtime.)
+# ---------------------------------------------------------------------------
+
+# --- Core data stack --------------------------------------------------------
+pandas>=2.1
+numpy>=1.26
+python-dateutil>=2.8
+pytz>=2023.3
+
+# --- Data collection --------------------------------------------------------
+requests>=2.31
+urllib3>=2.0
+beautifulsoup4>=4.12
+lxml>=4.9
+tenacity>=8.2
+
+# --- Database ---------------------------------------------------------------
+SQLAlchemy>=2.0
+alembic>=1.13
+psycopg2-binary>=2.9      # PostgreSQL driver
+PyMySQL>=1.1              # MySQL / MariaDB driver
+
+# --- Configuration ----------------------------------------------------------
+pydantic>=2.5
+pydantic-settings>=2.1
+python-dotenv>=1.0
+PyYAML>=6.0
+
+# --- Machine learning -------------------------------------------------------
+scikit-learn>=1.4
+xgboost>=2.0
+lightgbm>=4.1             # optional at runtime - skipped if import fails
+catboost>=1.2             # optional at runtime - skipped if import fails
+joblib>=1.3
+scipy>=1.11
+
+# --- Visualisation ----------------------------------------------------------
+plotly>=5.18
+matplotlib>=3.8
+seaborn>=0.13
+
+# --- Dashboard --------------------------------------------------------------
+# >=1.36 for the st.Page / st.navigation multi-page API used by the dashboard.
+streamlit>=1.36
+
+# --- REST API ---------------------------------------------------------------
+fastapi>=0.109
+uvicorn[standard]>=0.27
+
+# --- Scheduling -------------------------------------------------------------
+APScheduler>=3.10
+
+# --- Tests / tooling --------------------------------------------------------
+pytest>=7.4
+pytest-cov>=4.1

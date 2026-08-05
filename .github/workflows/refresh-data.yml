@@ -1,0 +1,134 @@
+name: Refresh IPL data
+
+# Keeps the warehouse current during the season. The pipeline is incremental --
+# a match already stored and already final is skipped -- so a daily run costs
+# one schedule request per active season plus whatever actually finished.
+
+on:
+  schedule:
+    # 02:00 UTC daily (07:30 IST), which is after any IPL match has finished.
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      seasons:
+        description: "Seasons to refresh, e.g. 2026 (blank = current season)"
+        required: false
+        default: ""
+      retrain:
+        description: "Retrain the models after ingesting"
+        type: boolean
+        required: false
+        default: true
+      full:
+        description: "Re-parse matches already stored as final"
+        type: boolean
+        required: false
+        default: false
+
+concurrency:
+  # Never let two refreshes write to the database at once.
+  group: refresh-data
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    name: Ingest and retrain
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -r requirements.txt
+
+      # Persisting the feed cache between runs makes each refresh nearly free.
+      - name: Restore the feed cache
+        uses: actions/cache@v4
+        with:
+          path: data/raw/feeds
+          key: ipl-feeds-${{ github.run_id }}
+          restore-keys: |
+            ipl-feeds-
+
+      - name: Determine the season to refresh
+        id: season
+        run: |
+          if [ -n "${{ github.event.inputs.seasons }}" ]; then
+            echo "value=${{ github.event.inputs.seasons }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=$(date +%Y)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ingest
+        env:
+          IPL_DATABASE_URL: ${{ secrets.IPL_DATABASE_URL }}
+          # Deliberately gentler than the local default for an unattended job.
+          IPL_REQUEST_DELAY: "1.0"
+        run: |
+          python scripts/ingest.py \
+            --seasons "${{ steps.season.outputs.value }}" \
+            ${{ github.event.inputs.full == 'true' && '--full' || '' }}
+
+      - name: Report what changed
+        env:
+          IPL_DATABASE_URL: ${{ secrets.IPL_DATABASE_URL }}
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, "src")
+          from ipl.db import repository as repo
+
+          run = repo.latest_ingestion_run() or {}
+          summary = repo.database_summary()
+          print(f"Status:   {run.get('status')}")
+          print(f"Inserted: {run.get('matches_inserted', 0)}")
+          print(f"Updated:  {run.get('matches_updated', 0)}")
+          print(f"Skipped:  {run.get('matches_skipped', 0)}")
+          print(f"Matches in warehouse: {summary.get('matches', 0)}")
+
+          changed = (run.get("matches_inserted", 0) or 0) + (run.get("matches_updated", 0) or 0)
+          with open("changed.txt", "w") as handle:
+              handle.write(str(changed))
+          PY
+
+      - name: Retrain if new matches landed
+        if: github.event.inputs.retrain != 'false'
+        env:
+          IPL_DATABASE_URL: ${{ secrets.IPL_DATABASE_URL }}
+        run: |
+          if [ "$(cat changed.txt)" != "0" ]; then
+            echo "New results found - retraining."
+            python scripts/train_models.py
+          else
+            echo "Nothing new; skipping the retrain."
+          fi
+
+      - name: Commit updated artefacts
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # -f because models/ and data/ are git-ignored for local development.
+          git add -f models/artifacts data/ipl.db 2>/dev/null || true
+          if git diff --staged --quiet; then
+            echo "No artefact changes to commit."
+          else
+            git commit -m "chore: refresh IPL data and retrain models [skip ci]"
+            git push
+          fi
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: refresh-logs
+          path: logs/
+          if-no-files-found: ignore

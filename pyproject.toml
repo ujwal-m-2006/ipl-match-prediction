@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ipl-analytics"
+version = "1.0.0"
+description = "IPL Match Prediction & Analytics System - data pipeline, ML models, dashboard and API"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "UJWAL M" }]
+keywords = ["ipl", "cricket", "machine-learning", "analytics", "streamlit"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dynamic = ["dependencies"]
+
+[project.urls]
+Homepage = "https://github.com/your-username/ipl-analytics"
+
+[project.scripts]
+# Installed console entry points - `ipl-ingest`, `ipl-train`, ... on PATH.
+ipl-ingest = "ipl.cli:ingest_main"
+ipl-train = "ipl.cli:train_main"
+ipl-eda = "ipl.cli:eda_main"
+ipl-api = "ipl.cli:api_main"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q --strict-markers"
+markers = [
+    "network: test requires live internet access (deselect with '-m \"not network\"')",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
