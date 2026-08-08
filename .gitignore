@@ -64,3 +64,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Transient logs from launcher testing
+_*.log

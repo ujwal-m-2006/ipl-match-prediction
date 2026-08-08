@@ -102,15 +102,42 @@ ones.
 
 ## Quickstart
 
+### Windows — double-click, no terminal needed
+
+| File | What it does |
+|---|---|
+| **`setup.bat`** | Run once. Creates the virtual environment, installs everything, prepares the database schema. |
+| **`run.bat`** | Starts the dashboard and opens your browser at `localhost:8501`. |
+| **`run_api.bat`** | Starts the REST API and opens the docs at `localhost:8000/docs`. |
+
+Each script checks its prerequisites first and names the exact command to run if
+something is missing, rather than failing with a stack trace. `run.bat` also
+detects a busy port and moves to the next one instead of silently binding
+somewhere you are not looking.
+
+After `setup.bat`, collect the data and train once:
+
+```bash
+.venv\Scripts\python.exe scripts\ingest.py
+```
+
+```bash
+.venv\Scripts\python.exe scripts\train_models.py
+```
+
+Then `run.bat` is all you need, every time.
+
+### macOS / Linux, or if you prefer the terminal
+
 ```bash
 git clone https://github.com/ujwal-m-2006/ipl-match-prediction.git
 ```
 
 ```bash
-cd ipl-match-prediction && python -m venv .venv && .venv/Scripts/activate
+cd ipl-match-prediction && python -m venv .venv && source .venv/bin/activate
 ```
 
-> On macOS/Linux use `source .venv/bin/activate`.
+> On Windows the activate command is `.venv\Scripts\activate`.
 
 ```bash
 pip install -r requirements-dev.txt
