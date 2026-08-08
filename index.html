@@ -67,6 +67,8 @@
   .btn:hover { transform: translateY(-1px); }
   .btn-primary { background: var(--blue); color: #fff; }
   .btn-ghost { border-color: var(--line); color: var(--ink); background: var(--raised); }
+  /* Streamlit's own brand red, so the live-app button reads as "that service". */
+  .btn-live { background: #FF4B4B; color: #fff; }
 
   /* ---------- stat tiles ---------- */
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .75rem; }
@@ -140,8 +142,8 @@
     </p>
 
     <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/ujwal-m-2006/ipl-match-prediction">View the source</a>
-      <a class="btn btn-ghost" href="https://github.com/ujwal-m-2006/ipl-match-prediction#quickstart">Run it locally</a>
+      <a class="btn btn-live" href="https://ujwal-m-2006-ipl-match-prediction-streamlit-app-unarea.streamlit.app/">▶ Open the live dashboard</a>
+      <a class="btn btn-ghost" href="https://github.com/ujwal-m-2006/ipl-match-prediction">View the source</a>
     </div>
 
     <div class="stats">
@@ -283,12 +285,17 @@
   <div class="wrap">
     <h2>Run the interactive dashboard</h2>
     <p class="sub">
-      This page is static. The nine-page dashboard is a Streamlit application and
-      needs a running Python process, so it cannot be hosted on GitHub Pages.
+      The nine-page dashboard runs live on Streamlit Community Cloud. This page
+      is static — a Streamlit app needs a running Python process, so it cannot be
+      hosted on GitHub Pages itself.
     </p>
 
-    <p>Clone and run it — the repository ships a prebuilt database and trained
-       models, so there is no ingest or training step:</p>
+    <p style="margin-bottom:1.75rem">
+      <a class="btn btn-live" href="https://ujwal-m-2006-ipl-match-prediction-streamlit-app-unarea.streamlit.app/">▶ Open the live dashboard</a>
+    </p>
+
+    <p>Or clone and run it locally — the repository ships a prebuilt database and
+       trained models, so there is no ingest or training step:</p>
 
 <pre><code>git clone https://github.com/ujwal-m-2006/ipl-match-prediction.git
 cd ipl-match-prediction

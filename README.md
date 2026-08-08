@@ -1,6 +1,7 @@
 # 🏏 IPL Match Prediction & Analytics System
 
-[![Deploy to Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=ujwal-m-2006%2Fipl-match-prediction&branch=main&mainModule=streamlit_app.py)
+[![Live app](https://img.shields.io/badge/live%20app-open%20dashboard-FF4B4B?logo=streamlit&logoColor=white)](https://ujwal-m-2006-ipl-match-prediction-streamlit-app-unarea.streamlit.app/)
+[![Project site](https://img.shields.io/badge/project%20site-results%20%26%20charts-2a78d6)](https://ujwal-m-2006.github.io/ipl-match-prediction/)
 [![Python](https://img.shields.io/badge/python-3.11%20|%203.12%20|%203.13-blue.svg)](https://www.python.org/)
 [![Tests](https://img.shields.io/badge/tests-242%20passing-brightgreen.svg)](tests/)
 [![Licence](https://img.shields.io/badge/licence-MIT-green.svg)](LICENSE)
@@ -12,10 +13,11 @@ of six algorithms, a multi-page Streamlit dashboard and a documented REST API.
 
 **19 seasons · 1,246 matches · 280,125 deliveries · 1,457 players · 242 tests**
 
-> **▶ Run it in one click.** The badge above deploys this repository to Streamlit
-> Community Cloud. A prebuilt database and pre-trained models ship with the repo,
-> so the app has full data the moment it boots — no ingest, no training, no
-> configuration.
+**🔴 [Open the live dashboard](https://ujwal-m-2006-ipl-match-prediction-streamlit-app-unarea.streamlit.app/)** ·
+**📊 [Project site with results and charts](https://ujwal-m-2006.github.io/ipl-match-prediction/)**
+
+> A prebuilt database and pre-trained models ship with the repository, so a clone
+> runs immediately — no ingest, no training, no configuration.
 
 ---
 
