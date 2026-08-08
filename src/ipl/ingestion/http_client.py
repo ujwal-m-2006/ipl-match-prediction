@@ -33,7 +33,7 @@ logger = get_logger(__name__)
 
 USER_AGENT = (
     "ipl-analytics/1.0 (educational portfolio project; "
-    "+https://github.com/your-username/ipl-analytics)"
+    "+https://github.com/ujwal-m-2006/ipl-match-prediction)"
 )
 
 # The feeds are JSONP: `MatchSchedule({...})`, `onScoring({...})`, ...

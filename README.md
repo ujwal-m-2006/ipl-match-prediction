@@ -5,7 +5,7 @@ data pipeline that collects from the **official iplt20.com feeds**, a relational
 warehouse, engineered features, four prediction models each selected from a field
 of six algorithms, a multi-page Streamlit dashboard and a documented REST API.
 
-**19 seasons · 1,246 matches · 280,125 deliveries · 1,457 players · 226 tests**
+**19 seasons · 1,246 matches · 280,125 deliveries · 1,457 players · 242 tests**
 
 ---
 
@@ -93,11 +93,11 @@ ones.
 ## Quickstart
 
 ```bash
-git clone https://github.com/your-username/ipl-analytics.git
+git clone https://github.com/ujwal-m-2006/ipl-match-prediction.git
 ```
 
 ```bash
-cd ipl-analytics && python -m venv .venv && .venv/Scripts/activate
+cd ipl-match-prediction && python -m venv .venv && .venv/Scripts/activate
 ```
 
 > On macOS/Linux use `source .venv/bin/activate`.
@@ -276,7 +276,7 @@ ipl-analytics/
 │       ├── main.py  schemas.py
 ├── scripts/                    CLI entry points
 ├── sql/                        Reference DDL (Postgres + MySQL)
-├── tests/                      226 tests
+├── tests/                      242 tests
 ├── docs/                       API, database, deployment, data sources
 ├── .github/workflows/          CI + scheduled data refresh
 ├── streamlit_app.py            Streamlit Cloud entry point
@@ -455,7 +455,7 @@ serialisation error on mixed-type tables.
 pytest
 ```
 
-**231 tests**, covering:
+**242 tests**, covering:
 
 - **Parsing** — over notation (`19.4` overs is 118 balls, not 116), franchise
   alias folding, result and dismissal strings, placeholder sentinels

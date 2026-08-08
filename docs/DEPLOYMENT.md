@@ -110,7 +110,7 @@ docker compose exec dashboard python scripts/train_models.py
 ## 3. Any VPS
 
 ```bash
-git clone https://github.com/your-username/ipl-analytics.git && cd ipl-analytics
+git clone https://github.com/ujwal-m-2006/ipl-match-prediction.git && cd ipl-match-prediction
 ```
 
 ```bash
