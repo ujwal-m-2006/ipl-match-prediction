@@ -1,11 +1,21 @@
 # 🏏 IPL Match Prediction & Analytics System
 
+[![Deploy to Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=ujwal-m-2006%2Fipl-match-prediction&branch=main&mainModule=streamlit_app.py)
+[![Python](https://img.shields.io/badge/python-3.11%20|%203.12%20|%203.13-blue.svg)](https://www.python.org/)
+[![Tests](https://img.shields.io/badge/tests-242%20passing-brightgreen.svg)](tests/)
+[![Licence](https://img.shields.io/badge/licence-MIT-green.svg)](LICENSE)
+
 An end-to-end machine-learning system for the Indian Premier League: an automated
 data pipeline that collects from the **official iplt20.com feeds**, a relational
 warehouse, engineered features, four prediction models each selected from a field
 of six algorithms, a multi-page Streamlit dashboard and a documented REST API.
 
 **19 seasons · 1,246 matches · 280,125 deliveries · 1,457 players · 242 tests**
+
+> **▶ Run it in one click.** The badge above deploys this repository to Streamlit
+> Community Cloud. A prebuilt database and pre-trained models ship with the repo,
+> so the app has full data the moment it boots — no ingest, no training, no
+> configuration.
 
 ---
 
