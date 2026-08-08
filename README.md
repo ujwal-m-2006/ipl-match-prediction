@@ -113,7 +113,7 @@ cd ipl-match-prediction && python -m venv .venv && .venv/Scripts/activate
 > On macOS/Linux use `source .venv/bin/activate`.
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 ```bash
@@ -290,7 +290,8 @@ ipl-analytics/
 ├── docs/                       API, database, deployment, data sources
 ├── .github/workflows/          CI + scheduled data refresh
 ├── streamlit_app.py            Streamlit Cloud entry point
-└── requirements.txt
+├── requirements.txt            runtime only (what a host installs)
+└── requirements-dev.txt        + tests, DB drivers, tooling
 ```
 
 ---

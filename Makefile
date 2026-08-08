@@ -13,7 +13,7 @@ help:  ## Show this help
 
 install:  ## Install dependencies
 	$(PYTHON) -m pip install --upgrade pip
-	$(PYTHON) -m pip install -r requirements.txt
+	$(PYTHON) -m pip install -r requirements-dev.txt
 
 setup: install  ## Install, create the schema and copy .env
 	@test -f .env || cp .env.example .env

@@ -152,11 +152,27 @@ class PredictionService:
         return self._artifacts[task]
 
     def has_model(self, task: str) -> bool:
-        """True when the named model has been trained and can be loaded."""
+        """True when the named model is trained and can actually be loaded.
+
+        Unpickling a model needs the library that produced it -- the winner
+        model is a CatBoost estimator, so a deployment where CatBoost failed to
+        install raises ``ModuleNotFoundError`` here rather than at import time.
+        Treating that as "not available" lets the rest of the app carry on
+        serving the models that did load, instead of the page dying outright.
+        """
         try:
             self.artifact(task)
             return True
         except (ArtifactNotFound, KeyError):
+            return False
+        except (ModuleNotFoundError, ImportError) as exc:
+            logger.warning(
+                "Model '%s' cannot be loaded because a library is missing (%s). "
+                "Install it to enable this prediction.", task, exc,
+            )
+            return False
+        except Exception as exc:  # pragma: no cover - corrupt artefact
+            logger.error("Model '%s' failed to load: %s", task, exc)
             return False
 
     @property
@@ -505,9 +521,12 @@ class PredictionService:
         """One row per trained task: the winning model and its headline metric."""
         rows = []
         for task in ARTIFACTS:
+            if not self.has_model(task):
+                rows.append({"task": task, "status": "not trained"})
+                continue
             try:
                 bundle = self.artifact(task)
-            except ArtifactNotFound:
+            except Exception:  # pragma: no cover - has_model already screened this
                 rows.append({"task": task, "status": "not trained"})
                 continue
             best = bundle["best_model"]

@@ -29,12 +29,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-          cache-dependency-path: requirements.txt
+          cache-dependency-path: requirements-dev.txt
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
       - name: Run tests
         # The live-feed test is deselected: CI must not depend on a third-party
@@ -61,9 +61,9 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: requirements.txt
+          cache-dependency-path: requirements-dev.txt
 
-      - run: pip install -r requirements.txt
+      - run: pip install -r requirements-dev.txt
 
       - name: Create the schema
         run: python scripts/init_db.py
@@ -122,5 +122,5 @@ jobs:
 
       - name: Check the package imports cleanly
         run: |
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
           python -c "import sys; sys.path.insert(0, 'src'); import ipl; print(ipl.__version__)"

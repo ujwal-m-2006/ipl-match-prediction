@@ -1,62 +1,55 @@
 # ---------------------------------------------------------------------------
-# IPL Match Prediction & Analytics System - Python dependencies
+# Runtime dependencies — everything needed to RUN the dashboard and the API.
 #
-# Tested on Python 3.11 - 3.13. (Python 3.14 works, but LightGBM/CatBoost
-# wheels may not be published for it yet - both are optional at runtime.)
+# Deliberately lean: this is the list a hosting platform installs, and every
+# extra package is another chance for the build to fail. Development extras
+# (test runner, database drivers, migrations) live in requirements-dev.txt.
+#
+# Tested on Python 3.11 - 3.13. See .python-version.
 # ---------------------------------------------------------------------------
 
 # --- Core data stack --------------------------------------------------------
 pandas>=2.1
 numpy>=1.26
 python-dateutil>=2.8
-pytz>=2023.3
 
 # --- Data collection --------------------------------------------------------
 requests>=2.31
-urllib3>=2.0
 beautifulsoup4>=4.12
 lxml>=4.9
-tenacity>=8.2
 
 # --- Database ---------------------------------------------------------------
+# SQLAlchemy alone covers SQLite, which is what the shipped deployment uses.
+# PostgreSQL and MySQL drivers are in requirements-dev.txt — install those only
+# if you point IPL_DATABASE_URL at a server-backed database.
 SQLAlchemy>=2.0
-alembic>=1.13
-psycopg2-binary>=2.9      # PostgreSQL driver
-PyMySQL>=1.1              # MySQL / MariaDB driver
 
 # --- Configuration ----------------------------------------------------------
-pydantic>=2.5
-pydantic-settings>=2.1
 python-dotenv>=1.0
 PyYAML>=6.0
 
 # --- Machine learning -------------------------------------------------------
 scikit-learn>=1.4
-xgboost>=2.0
-lightgbm>=4.1             # optional at runtime - skipped if import fails
-catboost>=1.2             # optional at runtime - skipped if import fails
 joblib>=1.3
 scipy>=1.11
+
+# CatBoost is required to deserialise the trained match-winner model. If it
+# fails to install, the app still starts and serves the other three models —
+# see ipl.models.predict.PredictionService.has_model.
+catboost>=1.2
+
+# Compared during training and loaded only if a saved model uses them.
+xgboost>=2.0
+lightgbm>=4.1
 
 # --- Visualisation ----------------------------------------------------------
 plotly>=5.18
 matplotlib>=3.8
-seaborn>=0.13
 
 # --- Dashboard --------------------------------------------------------------
-# >=1.36 for the st.Page / st.navigation multi-page API used by the dashboard.
+# >=1.36 for the st.Page / st.navigation multi-page API.
 streamlit>=1.36
 
 # --- REST API ---------------------------------------------------------------
 fastapi>=0.109
 uvicorn[standard]>=0.27
-
-# --- Scheduling -------------------------------------------------------------
-APScheduler>=3.10
-
-# --- Tests / tooling --------------------------------------------------------
-pytest>=7.4
-pytest-cov>=4.1
-# Required by starlette's TestClient, which the API tests and the CI smoke job
-# use. Without it `from fastapi.testclient import TestClient` raises at import.
-httpx2>=2.9

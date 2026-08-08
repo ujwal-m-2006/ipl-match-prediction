@@ -1,0 +1,38 @@
+# ---------------------------------------------------------------------------
+# Development dependencies — testing, extra database backends, tooling.
+#
+#   pip install -r requirements-dev.txt
+#
+# This pulls in requirements.txt too, so it is the only file you need locally.
+# Hosting platforms should install requirements.txt alone.
+# ---------------------------------------------------------------------------
+
+-r requirements.txt
+
+# --- Tests ------------------------------------------------------------------
+pytest>=7.4
+pytest-cov>=4.1
+# Required by starlette's TestClient, which the API tests use. Without it,
+# `from fastapi.testclient import TestClient` raises at import.
+httpx2>=2.9
+
+# --- Additional database backends -------------------------------------------
+# Only needed when IPL_DATABASE_URL points at a server-backed database.
+# psycopg2-binary in particular is a common cause of build failures on hosted
+# platforms, which is why it is kept out of the runtime requirements.
+psycopg2-binary>=2.9      # PostgreSQL
+PyMySQL>=1.1              # MySQL / MariaDB
+
+# --- Schema migrations ------------------------------------------------------
+# The schema is created from the ORM models; alembic is here for anyone who
+# wants a versioned migration chain (see docs/DATABASE.md).
+alembic>=1.13
+
+# --- Visualisation extras ---------------------------------------------------
+seaborn>=0.13
+
+# --- Scheduling -------------------------------------------------------------
+APScheduler>=3.10
+
+# --- Linting ----------------------------------------------------------------
+ruff>=0.4

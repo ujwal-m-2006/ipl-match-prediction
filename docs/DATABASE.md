@@ -376,7 +376,7 @@ except the chase model and phase analytics.
 
 ## Migrations
 
-Alembic is included in `requirements.txt` but no migration chain is committed —
+Alembic is included in `requirements-dev.txt` but no migration chain is committed —
 the schema is created from the ORM models. If you fork this and need versioned
 migrations:
 

@@ -121,7 +121,7 @@ git clone https://github.com/ujwal-m-2006/ipl-match-prediction.git && cd ipl-mat
 ```
 
 ```bash
-python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+python -m venv .venv && source .venv/bin/activate && pip install -r requirements-dev.txt
 ```
 
 ```bash
