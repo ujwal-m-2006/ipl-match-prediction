@@ -159,7 +159,14 @@ def check_database(report: Report) -> bool:
 
     deliveries = summary.get("deliveries", 0)
     if deliveries == 0:
-        report.warn("Ball-by-ball data", "absent - the chase model and phase analytics are unavailable")
+        # An already-trained chase model still predicts fine without this table
+        # -- inference is built from the live match state the user supplies.
+        # Only re-training it, and the venue phase charts, need ball-by-ball rows.
+        report.warn(
+            "Ball-by-ball data",
+            "absent - venue phase charts unavailable and the chase model "
+            "cannot be re-trained (existing predictions still work)",
+        )
     else:
         report.ok("Ball-by-ball data", f"{deliveries:,} deliveries")
 

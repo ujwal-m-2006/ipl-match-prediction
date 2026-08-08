@@ -1,0 +1,364 @@
+{
+  "task": "winner",
+  "best_model": "CatBoost",
+  "numeric_features": [
+    "season",
+    "team1_is_home",
+    "is_neutral_venue",
+    "is_playoff",
+    "toss_winner_is_team1",
+    "toss_decision_is_bat",
+    "team1_career_win_rate",
+    "team2_career_win_rate",
+    "team1_form_short",
+    "team2_form_short",
+    "team1_form_long",
+    "team2_form_long",
+    "form_short_diff",
+    "form_long_diff",
+    "career_win_rate_diff",
+    "team1_h2h_win_rate",
+    "h2h_matches",
+    "team1_venue_win_rate",
+    "team2_venue_win_rate",
+    "venue_win_rate_diff",
+    "team1_avg_runs_scored",
+    "team2_avg_runs_scored",
+    "team1_avg_runs_conceded",
+    "team2_avg_runs_conceded",
+    "team1_net_run_strength",
+    "team2_net_run_strength",
+    "net_run_strength_diff",
+    "team1_rest_days",
+    "team2_rest_days",
+    "rest_days_diff",
+    "team1_season_points",
+    "team2_season_points",
+    "season_points_diff",
+    "team1_season_matches",
+    "team2_season_matches",
+    "venue_avg_first_innings",
+    "venue_chase_win_rate",
+    "team1_win_streak",
+    "team2_win_streak",
+    "team1_xi_batting_average",
+    "team2_xi_batting_average",
+    "team1_xi_strike_rate",
+    "team2_xi_strike_rate",
+    "team1_xi_bowling_economy",
+    "team2_xi_bowling_economy",
+    "team1_xi_experience",
+    "team2_xi_experience",
+    "xi_batting_average_diff",
+    "xi_strike_rate_diff",
+    "xi_bowling_economy_diff",
+    "xi_experience_diff",
+    "has_xi_data"
+  ],
+  "categorical_features": [
+    "team1",
+    "team2",
+    "venue",
+    "toss_decision"
+  ],
+  "metrics": [
+    {
+      "model": "Logistic Regression",
+      "accuracy": 0.5255813953488372,
+      "precision": 0.5367647058823529,
+      "recall": 0.6517857142857143,
+      "f1": 0.5887096774193549,
+      "roc_auc": 0.5142163661581137,
+      "log_loss": 0.7067883687391058,
+      "brier": 0.25653763994242523,
+      "support": 215,
+      "positive_rate": 0.5209302325581395,
+      "train_seconds": 0.74,
+      "confusion": [
+        [
+          40,
+          63
+        ],
+        [
+          39,
+          73
+        ]
+      ]
+    },
+    {
+      "model": "Random Forest",
+      "accuracy": 0.49767441860465117,
+      "precision": 0.5185185185185185,
+      "recall": 0.5,
+      "f1": 0.509090909090909,
+      "roc_auc": 0.5055478502080444,
+      "log_loss": 0.6952413257695732,
+      "brier": 0.2510369110731952,
+      "support": 215,
+      "positive_rate": 0.5209302325581395,
+      "train_seconds": 0.9,
+      "confusion": [
+        [
+          51,
+          52
+        ],
+        [
+          56,
+          56
+        ]
+      ]
+    },
+    {
+      "model": "Gradient Boosting",
+      "accuracy": 0.5116279069767442,
+      "precision": 0.5346534653465347,
+      "recall": 0.48214285714285715,
+      "f1": 0.5070422535211268,
+      "roc_auc": 0.5085818307905686,
+      "log_loss": 0.7477021546979091,
+      "brier": 0.2740150998891576,
+      "support": 215,
+      "positive_rate": 0.5209302325581395,
+      "train_seconds": 4.19,
+      "confusion": [
+        [
+          56,
+          47
+        ],
+        [
+          58,
+          54
+        ]
+      ]
+    },
+    {
+      "model": "XGBoost",
+      "accuracy": 0.5302325581395348,
+      "precision": 0.5486725663716814,
+      "recall": 0.5535714285714286,
+      "f1": 0.5511111111111111,
+      "roc_auc": 0.542735783633842,
+      "log_loss": 0.7594824433326721,
+      "brier": 0.2751624286174774,
+      "support": 215,
+      "positive_rate": 0.5209302325581395,
+      "train_seconds": 1.84,
+      "confusion": [
+        [
+          52,
+          51
+        ],
+        [
+          50,
+          62
+        ]
+      ]
+    },
+    {
+      "model": "LightGBM",
+      "accuracy": 0.5348837209302325,
+      "precision": 0.5576923076923077,
+      "recall": 0.5178571428571429,
+      "f1": 0.5370370370370371,
+      "roc_auc": 0.5250520110957003,
+      "log_loss": 0.7891786120308735,
+      "brier": 0.28500195152828406,
+      "support": 215,
+      "positive_rate": 0.5209302325581395,
+      "train_seconds": 0.68,
+      "confusion": [
+        [
+          57,
+          46
+        ],
+        [
+          54,
+          58
+        ]
+      ]
+    },
+    {
+      "model": "CatBoost",
+      "accuracy": 0.5534883720930233,
+      "precision": 0.5869565217391305,
+      "recall": 0.48214285714285715,
+      "f1": 0.5294117647058824,
+      "roc_auc": 0.551490984743412,
+      "log_loss": 0.7288492585026747,
+      "brier": 0.26443321228026667,
+      "support": 215,
+      "positive_rate": 0.5209302325581395,
+      "train_seconds": 1.76,
+      "confusion": [
+        [
+          65,
+          38
+        ],
+        [
+          58,
+          54
+        ]
+      ]
+    }
+  ],
+  "trained_at": "2026-08-08T04:32:09",
+  "importance": [
+    {
+      "feature": "team2_xi_bowling_economy",
+      "importance": 0.04224487209146883
+    },
+    {
+      "feature": "xi_experience_diff",
+      "importance": 0.04136347850886718
+    },
+    {
+      "feature": "team1_xi_bowling_economy",
+      "importance": 0.03896940281771603
+    },
+    {
+      "feature": "xi_bowling_economy_diff",
+      "importance": 0.03667160280250158
+    },
+    {
+      "feature": "team1_h2h_win_rate",
+      "importance": 0.03578860757775635
+    },
+    {
+      "feature": "team1_career_win_rate",
+      "importance": 0.03383067812687829
+    },
+    {
+      "feature": "team2_career_win_rate",
+      "importance": 0.03197374571007485
+    },
+    {
+      "feature": "team2_venue_win_rate",
+      "importance": 0.03193381964310279
+    },
+    {
+      "feature": "team1_venue_win_rate",
+      "importance": 0.03091873253201985
+    },
+    {
+      "feature": "career_win_rate_diff",
+      "importance": 0.030648033707262004
+    },
+    {
+      "feature": "team1_xi_experience",
+      "importance": 0.027658823698447528
+    },
+    {
+      "feature": "xi_strike_rate_diff",
+      "importance": 0.02532847541813647
+    },
+    {
+      "feature": "team2_xi_strike_rate",
+      "importance": 0.023378148079307944
+    },
+    {
+      "feature": "team2_xi_experience",
+      "importance": 0.023222133297038493
+    },
+    {
+      "feature": "form_long_diff",
+      "importance": 0.02266556143645971
+    },
+    {
+      "feature": "team1_xi_batting_average",
+      "importance": 0.02237964834715543
+    },
+    {
+      "feature": "team1_season_points",
+      "importance": 0.021877791273490245
+    },
+    {
+      "feature": "team2_win_streak",
+      "importance": 0.021464444020166253
+    },
+    {
+      "feature": "venue_win_rate_diff",
+      "importance": 0.021149093620411834
+    },
+    {
+      "feature": "rest_days_diff",
+      "importance": 0.02104646173994863
+    },
+    {
+      "feature": "team1_xi_strike_rate",
+      "importance": 0.019719856427152713
+    },
+    {
+      "feature": "team2_xi_batting_average",
+      "importance": 0.01971070518456277
+    },
+    {
+      "feature": "team2_season_points",
+      "importance": 0.018276576269542984
+    },
+    {
+      "feature": "team2_rest_days",
+      "importance": 0.017952893706293445
+    },
+    {
+      "feature": "xi_batting_average_diff",
+      "importance": 0.01750226863923173
+    }
+  ],
+  "calibration": [
+    {
+      "bucket": "10%-20%",
+      "count": 9,
+      "predicted": 0.16108212959706522,
+      "observed": 0.4444444444444444
+    },
+    {
+      "bucket": "20%-30%",
+      "count": 21,
+      "predicted": 0.258793180555335,
+      "observed": 0.47619047619047616
+    },
+    {
+      "bucket": "30%-40%",
+      "count": 48,
+      "predicted": 0.35458088248644737,
+      "observed": 0.4375
+    },
+    {
+      "bucket": "40%-50%",
+      "count": 45,
+      "predicted": 0.44842153161412673,
+      "observed": 0.5111111111111111
+    },
+    {
+      "bucket": "50%-60%",
+      "count": 39,
+      "predicted": 0.5536704389246189,
+      "observed": 0.6153846153846154
+    },
+    {
+      "bucket": "60%-70%",
+      "count": 33,
+      "predicted": 0.6478505763019125,
+      "observed": 0.6060606060606061
+    },
+    {
+      "bucket": "70%-80%",
+      "count": 14,
+      "predicted": 0.7441730249951404,
+      "observed": 0.42857142857142855
+    },
+    {
+      "bucket": "80%-90%",
+      "count": 6,
+      "predicted": 0.8317333156118711,
+      "observed": 0.6666666666666666
+    }
+  ],
+  "train_rows": 2038,
+  "test_rows": 215,
+  "test_seasons": [
+    2024,
+    2025,
+    2026
+  ]
+}

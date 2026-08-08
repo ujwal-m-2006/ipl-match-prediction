@@ -1,0 +1,203 @@
+{
+  "task": "score",
+  "best_model": "Random Forest",
+  "numeric_features": [
+    "season",
+    "is_neutral_venue",
+    "is_playoff",
+    "batting_is_home",
+    "batting_won_toss",
+    "batting_career_win_rate",
+    "batting_form_short",
+    "bowling_form_short",
+    "batting_avg_runs_scored",
+    "bowling_avg_runs_conceded",
+    "venue_avg_first_innings",
+    "batting_venue_avg_score",
+    "batting_rest_days",
+    "league_recent_avg_score",
+    "venue_recent_avg_score",
+    "batting_xi_batting_average",
+    "batting_xi_strike_rate",
+    "bowling_xi_bowling_economy"
+  ],
+  "categorical_features": [
+    "batting_team",
+    "bowling_team",
+    "venue"
+  ],
+  "metrics": [
+    {
+      "model": "Ridge Regression",
+      "rmse": 39.05592967907655,
+      "mae": 30.314895282153124,
+      "r2": -0.09393792076345142,
+      "mean_error": -4.942387540479514,
+      "within_10": 0.2,
+      "within_20": 0.4232558139534884,
+      "support": 215,
+      "train_seconds": 0.03
+    },
+    {
+      "model": "Random Forest",
+      "rmse": 38.23666389212911,
+      "mae": 30.665430494765406,
+      "r2": -0.048524792808823713,
+      "mean_error": -6.741500625392819,
+      "within_10": 0.15813953488372093,
+      "within_20": 0.37209302325581395,
+      "support": 215,
+      "train_seconds": 0.71
+    },
+    {
+      "model": "Gradient Boosting",
+      "rmse": 39.236657813643994,
+      "mae": 31.10266197255854,
+      "r2": -0.10408556257394164,
+      "mean_error": 2.6984732211149596,
+      "within_10": 0.18604651162790697,
+      "within_20": 0.39069767441860465,
+      "support": 215,
+      "train_seconds": 1.11
+    },
+    {
+      "model": "XGBoost",
+      "rmse": 39.25370227312282,
+      "mae": 30.819167168195857,
+      "r2": -0.10504500357028546,
+      "mean_error": 1.6977446800054505,
+      "within_10": 0.20930232558139536,
+      "within_20": 0.3953488372093023,
+      "support": 215,
+      "train_seconds": 0.44
+    },
+    {
+      "model": "LightGBM",
+      "rmse": 41.09241420745314,
+      "mae": 32.401196417453605,
+      "r2": -0.21099411088916908,
+      "mean_error": -3.0904990645631676,
+      "within_10": 0.2186046511627907,
+      "within_20": 0.37209302325581395,
+      "support": 215,
+      "train_seconds": 0.47
+    },
+    {
+      "model": "CatBoost",
+      "rmse": 38.884081452215895,
+      "mae": 30.66749526278874,
+      "r2": -0.08433232655348366,
+      "mean_error": 2.627057934255974,
+      "within_10": 0.21395348837209302,
+      "within_20": 0.3813953488372093,
+      "support": 215,
+      "train_seconds": 0.72
+    }
+  ],
+  "trained_at": "2026-08-08T04:32:13",
+  "importance": [
+    {
+      "feature": "bowling_xi_bowling_economy",
+      "importance": 0.10395003044566624
+    },
+    {
+      "feature": "season",
+      "importance": 0.08979948509764757
+    },
+    {
+      "feature": "batting_xi_strike_rate",
+      "importance": 0.07218722411543901
+    },
+    {
+      "feature": "batting_career_win_rate",
+      "importance": 0.07213914845143239
+    },
+    {
+      "feature": "batting_xi_batting_average",
+      "importance": 0.07100457347244221
+    },
+    {
+      "feature": "venue_recent_avg_score",
+      "importance": 0.05387634227419698
+    },
+    {
+      "feature": "league_recent_avg_score",
+      "importance": 0.05208037889850912
+    },
+    {
+      "feature": "venue_avg_first_innings",
+      "importance": 0.04319276762646104
+    },
+    {
+      "feature": "bowling_avg_runs_conceded",
+      "importance": 0.04130112775962332
+    },
+    {
+      "feature": "batting_venue_avg_score",
+      "importance": 0.040628204039981054
+    },
+    {
+      "feature": "batting_avg_runs_scored",
+      "importance": 0.03630975913645432
+    },
+    {
+      "feature": "bowling_form_short",
+      "importance": 0.03447599026558024
+    },
+    {
+      "feature": "batting_rest_days",
+      "importance": 0.03380580742098672
+    },
+    {
+      "feature": "batting_form_short",
+      "importance": 0.025885637233665434
+    },
+    {
+      "feature": "batting_won_toss",
+      "importance": 0.01545511907293825
+    },
+    {
+      "feature": "is_neutral_venue",
+      "importance": 0.013347553832797822
+    },
+    {
+      "feature": "venue_M Chinnaswamy Stadium",
+      "importance": 0.012632645924988774
+    },
+    {
+      "feature": "bowling_team_Sunrisers Hyderabad",
+      "importance": 0.01199705887467372
+    },
+    {
+      "feature": "batting_team_Unknown",
+      "importance": 0.010534662895772024
+    },
+    {
+      "feature": "batting_is_home",
+      "importance": 0.010177086274583802
+    },
+    {
+      "feature": "bowling_team_Kolkata Knight Riders",
+      "importance": 0.009453270917371751
+    },
+    {
+      "feature": "bowling_team_Royal Challengers Bengaluru",
+      "importance": 0.007860578746645901
+    },
+    {
+      "feature": "bowling_team_Pune Warriors",
+      "importance": 0.007569609650294557
+    },
+    {
+      "feature": "venue_Wankhede Stadium",
+      "importance": 0.00649394433181134
+    },
+    {
+      "feature": "bowling_team_Punjab Kings",
+      "importance": 0.006483716233663128
+    }
+  ],
+  "train_rows": 1019,
+  "test_rows": 215,
+  "residual_std": 37.63767573745061
+}

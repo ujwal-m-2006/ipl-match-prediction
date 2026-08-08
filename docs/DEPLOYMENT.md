@@ -25,53 +25,60 @@ The quickest way to get a public URL.
 Streamlit exposes top-level secrets as environment variables, which is exactly
 how this project reads its configuration — no code changes needed.
 
-### The ephemeral-filesystem problem
+### The ephemeral-filesystem problem — already solved
 
-Streamlit Cloud restarts containers freely and does **not** persist writes. A
-SQLite file written by the Admin page will vanish. Two ways round it:
+Streamlit Cloud restarts containers freely and does **not** persist writes, so
+the deployed app cannot run the ingest. This repository therefore **ships a
+pre-built database and pre-trained models**, and the app finds them with no
+configuration:
 
-**Option A — hosted Postgres (recommended for a live app)**
+| Committed | Size | Purpose |
+|---|---|---|
+| `data/ipl_deploy.db` | 9 MB | All 1,246 matches, scorecards, partnerships and squads |
+| `models/artifacts/*.joblib` | 6 MB | All four trained models |
 
-Create a free database on [Neon](https://neon.tech),
-[Supabase](https://supabase.com) or [Railway](https://railway.app), then add:
+When `IPL_DATABASE_URL` is unset and `data/ipl.db` is missing — exactly the
+situation on a fresh deploy — `ipl.config` falls back to `data/ipl_deploy.db`
+automatically.
 
-```toml
-IPL_DATABASE_URL = "postgresql+psycopg2://user:pass@host:5432/ipl?sslmode=require"
+**What the deployment copy leaves out.** The 280k-row `deliveries` table, which
+is what takes the full database to 48 MB. Dropping it costs only the venue
+"scoring by phase" chart. Every prediction still works, **including the chase
+model** — a live chase prediction is computed from the match state the user
+types in, not from stored deliveries.
+
+Rebuild it after a data refresh:
+
+```bash
+python scripts/build_deploy_db.py
 ```
 
-Populate it once from your machine:
+Then commit — `.gitignore` already whitelists both paths, so a plain `git add`
+picks them up:
+
+```bash
+git add data/ipl_deploy.db models/artifacts && git commit -m "Refresh deployment data"
+```
+
+**Alternative — hosted Postgres.** For a genuinely live app that can refresh
+itself, create a free database on [Neon](https://neon.tech),
+[Supabase](https://supabase.com) or [Railway](https://railway.app), set
+`IPL_DATABASE_URL` in Streamlit secrets, and populate it once from your machine:
 
 ```bash
 IPL_DATABASE_URL="postgresql+psycopg2://..." python scripts/ingest.py
 ```
 
-**Option B — commit a pre-built database (simplest, read-only)**
-
-Build locally, then commit the artefacts:
-
-```bash
-python scripts/ingest.py --no-deliveries && python scripts/train_models.py --skip-chase
-```
-
-`data/*.db` and `models/artifacts/` are git-ignored by default, so force-add
-them:
-
-```bash
-git add -f data/ipl.db models/artifacts/ && git commit -m "Add prebuilt database and models"
-```
-
-Without deliveries this is ~14 MB of database plus a few MB of models — well
-inside GitHub's comfortable range. The app then works out of the box, and the
-Admin page's refresh simply won't survive a restart.
-
 ### Resource limits
 
-Streamlit Cloud gives ~1 GB of RAM. Two consequences:
+Streamlit Cloud gives ~1 GB of RAM. The shipped setup stays well inside it, but
+note:
 
-- Skip the chase model (`--skip-chase`) or ship it pre-trained; its artefact is
-  ~3 MB and loads fine, but *training* it on 45k rows in-container will not.
-- `load_deliveries()` on the full 280k-row table is heavy. The Venue page calls
-  it; if you hit memory limits, ingest with `IPL_INGEST_DELIVERIES=false`.
+- Models are loaded pre-trained. *Training* the chase model on 45k rows will not
+  fit in-container, which is why the Admin page's retrain is not for use there.
+- The Admin page's write actions are **disabled entirely** while
+  `IPL_ADMIN_PASSWORD` is still `change-me`, so a public URL cannot be used to
+  hammer the IPL feed. Set a real password in Secrets to enable them.
 
 ---
 

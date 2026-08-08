@@ -38,6 +38,14 @@ _ALL_DIRS = (
 # Load .env once, at import time, before Settings reads os.environ.
 load_dotenv(PROJECT_ROOT / ".env", override=False)
 
+# The local development database, built by `scripts/ingest.py`.
+DEFAULT_DATABASE_URL = "sqlite:///data/ipl.db"
+
+# A slimmed copy committed to the repository for deployment, built by
+# `scripts/build_deploy_db.py`. Hosting platforms with an ephemeral filesystem
+# (Streamlit Community Cloud) cannot run the ingest, so they read this instead.
+DEPLOY_DATABASE_PATH = DATA_DIR / "ipl_deploy.db"
+
 
 def _env_bool(key: str, default: bool) -> bool:
     """Read a boolean env var, accepting the usual truthy spellings."""
@@ -74,8 +82,12 @@ class Settings:
         # Default to a file-based SQLite DB so a fresh clone runs with no setup.
         # Relative SQLite paths are resolved against PROJECT_ROOT, not the CWD,
         # so the dashboard and CLI scripts always agree on which file to open.
-        raw_url = os.getenv("IPL_DATABASE_URL", "sqlite:///data/ipl.db").strip()
-        self.database_url: str = self._resolve_sqlite_path(raw_url)
+        configured = os.getenv("IPL_DATABASE_URL", "").strip()
+        raw_url = configured or DEFAULT_DATABASE_URL
+        resolved = self._resolve_sqlite_path(raw_url)
+        if not configured:
+            resolved = self._fall_back_to_deploy_db(resolved)
+        self.database_url: str = resolved
         self.db_echo: bool = _env_bool("IPL_DB_ECHO", False)
 
         # --- Data collection ---
@@ -121,6 +133,25 @@ class Settings:
         if path.is_absolute():
             return url
         return prefix + (PROJECT_ROOT / path).as_posix()
+
+    @staticmethod
+    def _fall_back_to_deploy_db(url: str) -> str:
+        """Use the committed deployment database when the local one is absent.
+
+        Only applies when ``IPL_DATABASE_URL`` was *not* set explicitly, so an
+        operator who names a database always gets exactly that one. This is what
+        lets a Streamlit Cloud deployment work with no configuration at all: the
+        ingest has never run there, so ``data/ipl.db`` does not exist, but the
+        slimmed copy is in the repository.
+        """
+        prefix = "sqlite:///"
+        if not url.startswith(prefix):
+            return url
+        if Path(url[len(prefix):]).exists():
+            return url
+        if DEPLOY_DATABASE_PATH.exists():
+            return prefix + DEPLOY_DATABASE_PATH.as_posix()
+        return url
 
     @property
     def dialect(self) -> str:

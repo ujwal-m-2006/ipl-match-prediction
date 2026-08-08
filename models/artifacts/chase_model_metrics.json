@@ -1,0 +1,334 @@
+{
+  "task": "chase",
+  "best_model": "Random Forest",
+  "numeric_features": [
+    "target",
+    "current_runs",
+    "wickets_fallen",
+    "wickets_in_hand",
+    "balls_bowled",
+    "balls_remaining",
+    "runs_required",
+    "current_run_rate",
+    "required_run_rate",
+    "run_rate_pressure",
+    "over_no",
+    "runs_last_5_overs",
+    "wickets_last_5_overs",
+    "chase_progress",
+    "is_powerplay",
+    "is_death"
+  ],
+  "categorical_features": [
+    "batting_team",
+    "bowling_team",
+    "venue"
+  ],
+  "metrics": [
+    {
+      "model": "Logistic Regression",
+      "accuracy": 0.7539835828102366,
+      "precision": 0.8462462462462462,
+      "recall": 0.6487108655616943,
+      "f1": 0.7344279384936148,
+      "roc_auc": 0.8593674336969834,
+      "log_loss": 0.5279412486659719,
+      "brier": 0.17139358668321733,
+      "support": 8284,
+      "positive_rate": 0.5243843553838725,
+      "train_seconds": 0.91,
+      "confusion": [
+        [
+          3428,
+          512
+        ],
+        [
+          1526,
+          2818
+        ]
+      ]
+    },
+    {
+      "model": "Random Forest",
+      "accuracy": 0.7988894253983583,
+      "precision": 0.8729805013927576,
+      "recall": 0.7214548802946593,
+      "f1": 0.7900176455760021,
+      "roc_auc": 0.8974489581288385,
+      "log_loss": 0.44853180848212837,
+      "brier": 0.14378859464233326,
+      "support": 8284,
+      "positive_rate": 0.5243843553838725,
+      "train_seconds": 2.96,
+      "confusion": [
+        [
+          3484,
+          456
+        ],
+        [
+          1210,
+          3134
+        ]
+      ]
+    },
+    {
+      "model": "Gradient Boosting",
+      "accuracy": 0.7618300338000966,
+      "precision": 0.8561129468308801,
+      "recall": 0.6560773480662984,
+      "f1": 0.7428645901212042,
+      "roc_auc": 0.8586763001187239,
+      "log_loss": 0.5099396602449056,
+      "brier": 0.16752339686345866,
+      "support": 8284,
+      "positive_rate": 0.5243843553838725,
+      "train_seconds": 61.76,
+      "confusion": [
+        [
+          3461,
+          479
+        ],
+        [
+          1494,
+          2850
+        ]
+      ]
+    },
+    {
+      "model": "XGBoost",
+      "accuracy": 0.7508450024142926,
+      "precision": 0.8512014787430684,
+      "recall": 0.636049723756906,
+      "f1": 0.7280632411067194,
+      "roc_auc": 0.8544973637714894,
+      "log_loss": 0.6008190512657166,
+      "brier": 0.17933952808380127,
+      "support": 8284,
+      "positive_rate": 0.5243843553838725,
+      "train_seconds": 1.3,
+      "confusion": [
+        [
+          3457,
+          483
+        ],
+        [
+          1581,
+          2763
+        ]
+      ]
+    },
+    {
+      "model": "LightGBM",
+      "accuracy": 0.7490342829550941,
+      "precision": 0.8511627906976744,
+      "recall": 0.6319060773480663,
+      "f1": 0.7253269916765755,
+      "roc_auc": 0.8527677478008058,
+      "log_loss": 0.642267708783387,
+      "brier": 0.18316027639429808,
+      "support": 8284,
+      "positive_rate": 0.5243843553838725,
+      "train_seconds": 0.97,
+      "confusion": [
+        [
+          3460,
+          480
+        ],
+        [
+          1599,
+          2745
+        ]
+      ]
+    },
+    {
+      "model": "CatBoost",
+      "accuracy": 0.7598985997102848,
+      "precision": 0.8584474885844748,
+      "recall": 0.649171270718232,
+      "f1": 0.739284309870232,
+      "roc_auc": 0.8580053238728254,
+      "log_loss": 0.5597797721345874,
+      "brier": 0.1719830976830466,
+      "support": 8284,
+      "positive_rate": 0.5243843553838725,
+      "train_seconds": 3.71,
+      "confusion": [
+        [
+          3475,
+          465
+        ],
+        [
+          1524,
+          2820
+        ]
+      ]
+    }
+  ],
+  "trained_at": "2026-08-08T04:33:31",
+  "importance": [
+    {
+      "feature": "run_rate_pressure",
+      "importance": 0.2268277696672897
+    },
+    {
+      "feature": "required_run_rate",
+      "importance": 0.22391724738509405
+    },
+    {
+      "feature": "target",
+      "importance": 0.11007556409880219
+    },
+    {
+      "feature": "wickets_in_hand",
+      "importance": 0.072387400814629
+    },
+    {
+      "feature": "wickets_fallen",
+      "importance": 0.061054695716659765
+    },
+    {
+      "feature": "runs_required",
+      "importance": 0.0591522218585137
+    },
+    {
+      "feature": "wickets_last_5_overs",
+      "importance": 0.03994864470083482
+    },
+    {
+      "feature": "chase_progress",
+      "importance": 0.03454607713465674
+    },
+    {
+      "feature": "current_run_rate",
+      "importance": 0.02691592680381141
+    },
+    {
+      "feature": "balls_remaining",
+      "importance": 0.014818936420245473
+    },
+    {
+      "feature": "balls_bowled",
+      "importance": 0.013992679650544161
+    },
+    {
+      "feature": "current_runs",
+      "importance": 0.0132880649702664
+    },
+    {
+      "feature": "over_no",
+      "importance": 0.012762178821915864
+    },
+    {
+      "feature": "runs_last_5_overs",
+      "importance": 0.009321891291360481
+    },
+    {
+      "feature": "batting_team_Pune Warriors",
+      "importance": 0.006492237791922047
+    },
+    {
+      "feature": "venue_MA Chidambaram Stadium",
+      "importance": 0.004759512320699643
+    },
+    {
+      "feature": "bowling_team_Gujarat Lions",
+      "importance": 0.0047381636281986425
+    },
+    {
+      "feature": "bowling_team_Lucknow Super Giants",
+      "importance": 0.004392002423558234
+    },
+    {
+      "feature": "batting_team_Gujarat Titans",
+      "importance": 0.00379898565830922
+    },
+    {
+      "feature": "is_death",
+      "importance": 0.003677229850775022
+    },
+    {
+      "feature": "batting_team_Deccan Chargers",
+      "importance": 0.0034028557840591516
+    },
+    {
+      "feature": "is_powerplay",
+      "importance": 0.0028502766179457624
+    },
+    {
+      "feature": "batting_team_Chennai Super Kings",
+      "importance": 0.002677916909578494
+    },
+    {
+      "feature": "bowling_team_Mumbai Indians",
+      "importance": 0.002152954628103472
+    },
+    {
+      "feature": "bowling_team_Punjab Kings",
+      "importance": 0.0021431416867843675
+    }
+  ],
+  "calibration": [
+    {
+      "bucket": "0%-10%",
+      "count": 577,
+      "predicted": 0.06797092497345827,
+      "observed": 0.005199306759098787
+    },
+    {
+      "bucket": "10%-20%",
+      "count": 916,
+      "predicted": 0.15196018403849748,
+      "observed": 0.07205240174672489
+    },
+    {
+      "bucket": "20%-30%",
+      "count": 1154,
+      "predicted": 0.24972881360988528,
+      "observed": 0.17504332755632582
+    },
+    {
+      "bucket": "30%-40%",
+      "count": 1140,
+      "predicted": 0.3476127726942384,
+      "observed": 0.35175438596491226
+    },
+    {
+      "bucket": "40%-50%",
+      "count": 907,
+      "predicted": 0.4477645314885663,
+      "observed": 0.5931642778390298
+    },
+    {
+      "bucket": "50%-60%",
+      "count": 909,
+      "predicted": 0.5494567073757968,
+      "observed": 0.7183718371837183
+    },
+    {
+      "bucket": "60%-70%",
+      "count": 763,
+      "predicted": 0.6483887993318211,
+      "observed": 0.8702490170380078
+    },
+    {
+      "bucket": "70%-80%",
+      "count": 671,
+      "predicted": 0.7542644936211231,
+      "observed": 0.9016393442622951
+    },
+    {
+      "bucket": "80%-90%",
+      "count": 773,
+      "predicted": 0.8511505060335216,
+      "observed": 0.9611901681759379
+    },
+    {
+      "bucket": "90%-100%",
+      "count": 474,
+      "predicted": 0.9287919561421553,
+      "observed": 0.989451476793249
+    }
+  ],
+  "train_rows": 36812,
+  "test_rows": 8284
+}

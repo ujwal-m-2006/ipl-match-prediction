@@ -19,6 +19,10 @@ from ._common import metric_row, page_header, show_table, stat_table
 
 SESSION_KEY = "admin_authenticated"
 
+# Matches the shipped default in .env.example. While this is unchanged the
+# write actions stay disabled entirely.
+DEFAULT_ADMIN_PASSWORD = "change-me"
+
 
 def render() -> None:
     """Render the admin page."""
@@ -53,11 +57,19 @@ def _authenticate(settings, scope: str) -> bool:  # noqa: ANN001
     if st.session_state.get(SESSION_KEY):
         return True
 
-    if settings.admin_password == "change-me":
-        st.warning(
-            "The admin password is still the default. Set `IPL_ADMIN_PASSWORD` "
-            "in your `.env` (or Streamlit secrets) before deploying publicly."
+    if settings.admin_password == DEFAULT_ADMIN_PASSWORD:
+        # Refuse rather than warn. These actions hammer a third-party feed and
+        # can burn a lot of CPU, so on a public deployment an unchanged default
+        # password is an open invitation. Locking them out is the safe failure.
+        st.error(
+            "**Write actions are disabled.** The admin password is still the "
+            "default, so refreshing data and retraining are locked to stop a "
+            "public deployment being abused.\n\n"
+            "Set `IPL_ADMIN_PASSWORD` in your `.env` locally, or under "
+            "**Settings → Secrets** on Streamlit Cloud, then reload.",
+            icon=":material/lock:",
         )
+        return False
 
     password = st.text_input(
         "Admin password", type="password", key=f"admin_password_input_{scope}"

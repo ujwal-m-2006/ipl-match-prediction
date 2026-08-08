@@ -23,6 +23,11 @@ data/external/
 data/*.db
 data/*.sqlite
 data/*.sqlite3
+
+# ...except the slimmed deployment database. Hosted platforms with an ephemeral
+# filesystem cannot run the ingest, so this one copy ships with the repository.
+# Rebuild it with `python scripts/build_deploy_db.py`.
+!data/ipl_deploy.db
 *.db-journal
 
 # SQLite sidecar files created by WAL mode.
@@ -30,10 +35,13 @@ data/*.sqlite3
 *.db-shm
 *.db-wal
 
-# Trained models are large binaries; regenerate with `make train`.
-models/artifacts/
+# Trained models are committed so a hosted deployment works without a training
+# run (Streamlit Cloud has ~1 GB of RAM, too little to fit the chase model).
+# Everything else under artifacts/ stays ignored.
+models/artifacts/*
+!models/artifacts/*.joblib
+!models/artifacts/*_metrics.json
 models/*.pkl
-models/*.joblib
 
 # Generated reports
 reports/figures/

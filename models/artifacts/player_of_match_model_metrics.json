@@ -1,0 +1,259 @@
+{
+  "task": "pom",
+  "best_model": "Random Forest",
+  "numeric_features": [
+    "runs",
+    "balls",
+    "fours",
+    "sixes",
+    "strike_rate",
+    "boundary_runs",
+    "wickets",
+    "runs_conceded",
+    "balls_bowled",
+    "maidens",
+    "economy",
+    "batting_impact",
+    "bowling_impact",
+    "total_impact",
+    "team_won",
+    "total_impact_rank",
+    "total_impact_share",
+    "runs_rank",
+    "runs_share",
+    "wickets_rank",
+    "wickets_share"
+  ],
+  "categorical_features": [],
+  "metrics": [
+    {
+      "model": "Logistic Regression",
+      "accuracy": 0.9712565546708098,
+      "precision": 0.5786163522012578,
+      "recall": 0.5317919075144508,
+      "f1": 0.5542168674698795,
+      "roc_auc": 0.9666561344162965,
+      "log_loss": 0.07373765910400355,
+      "brier": 0.021355577016502807,
+      "support": 5149,
+      "positive_rate": 0.03359875704020198,
+      "train_seconds": 0.2,
+      "confusion": [
+        [
+          4909,
+          67
+        ],
+        [
+          81,
+          92
+        ]
+      ]
+    },
+    {
+      "model": "Random Forest",
+      "accuracy": 0.9386288599728102,
+      "precision": 0.335632183908046,
+      "recall": 0.8439306358381503,
+      "f1": 0.48026315789473684,
+      "roc_auc": 0.9692500882850399,
+      "log_loss": 0.1483762408104582,
+      "brier": 0.0449859649645749,
+      "support": 5149,
+      "positive_rate": 0.03359875704020198,
+      "train_seconds": 2.44,
+      "confusion": [
+        [
+          4687,
+          289
+        ],
+        [
+          27,
+          146
+        ]
+      ]
+    },
+    {
+      "model": "Gradient Boosting",
+      "accuracy": 0.9679549427073219,
+      "precision": 0.5212765957446809,
+      "recall": 0.5664739884393064,
+      "f1": 0.5429362880886427,
+      "roc_auc": 0.9670150828020743,
+      "log_loss": 0.07920724909565831,
+      "brier": 0.02369747722395185,
+      "support": 5149,
+      "positive_rate": 0.03359875704020198,
+      "train_seconds": 17.19,
+      "confusion": [
+        [
+          4886,
+          90
+        ],
+        [
+          75,
+          98
+        ]
+      ]
+    },
+    {
+      "model": "XGBoost",
+      "accuracy": 0.9448436589629055,
+      "precision": 0.3609022556390977,
+      "recall": 0.8323699421965318,
+      "f1": 0.5034965034965035,
+      "roc_auc": 0.9689771016486071,
+      "log_loss": 0.15081238746643066,
+      "brier": 0.04371519014239311,
+      "support": 5149,
+      "positive_rate": 0.03359875704020198,
+      "train_seconds": 0.59,
+      "confusion": [
+        [
+          4721,
+          255
+        ],
+        [
+          29,
+          144
+        ]
+      ]
+    },
+    {
+      "model": "LightGBM",
+      "accuracy": 0.951252670421441,
+      "precision": 0.3879310344827586,
+      "recall": 0.7803468208092486,
+      "f1": 0.5182341650671785,
+      "roc_auc": 0.9689399290002416,
+      "log_loss": 0.1362565811014079,
+      "brier": 0.03832452564777969,
+      "support": 5149,
+      "positive_rate": 0.03359875704020198,
+      "train_seconds": 0.62,
+      "confusion": [
+        [
+          4763,
+          213
+        ],
+        [
+          38,
+          135
+        ]
+      ]
+    },
+    {
+      "model": "CatBoost",
+      "accuracy": 0.940570984657215,
+      "precision": 0.3381995133819951,
+      "recall": 0.8034682080924855,
+      "f1": 0.476027397260274,
+      "roc_auc": 0.9667432578109028,
+      "log_loss": 0.15612397670258604,
+      "brier": 0.04527020254519252,
+      "support": 5149,
+      "positive_rate": 0.03359875704020198,
+      "train_seconds": 3.03,
+      "confusion": [
+        [
+          4704,
+          272
+        ],
+        [
+          34,
+          139
+        ]
+      ]
+    }
+  ],
+  "trained_at": "2026-08-08T04:33:57",
+  "importance": [
+    {
+      "feature": "total_impact_share",
+      "importance": 0.21170894933316126
+    },
+    {
+      "feature": "total_impact",
+      "importance": 0.20365304365576298
+    },
+    {
+      "feature": "total_impact_rank",
+      "importance": 0.16865654768205526
+    },
+    {
+      "feature": "team_won",
+      "importance": 0.09965348701541568
+    },
+    {
+      "feature": "runs_share",
+      "importance": 0.04341167318572247
+    },
+    {
+      "feature": "batting_impact",
+      "importance": 0.03986929415452451
+    },
+    {
+      "feature": "runs_rank",
+      "importance": 0.03938846870689833
+    },
+    {
+      "feature": "runs",
+      "importance": 0.03765929287988008
+    },
+    {
+      "feature": "bowling_impact",
+      "importance": 0.03101761813839293
+    },
+    {
+      "feature": "boundary_runs",
+      "importance": 0.02226286378760715
+    },
+    {
+      "feature": "wickets_share",
+      "importance": 0.016461257706900097
+    },
+    {
+      "feature": "balls",
+      "importance": 0.015383845113184084
+    },
+    {
+      "feature": "wickets",
+      "importance": 0.01343018600589188
+    },
+    {
+      "feature": "wickets_rank",
+      "importance": 0.0110515800879907
+    },
+    {
+      "feature": "strike_rate",
+      "importance": 0.009800300018596221
+    },
+    {
+      "feature": "sixes",
+      "importance": 0.008949466345852088
+    },
+    {
+      "feature": "fours",
+      "importance": 0.008466967823071849
+    },
+    {
+      "feature": "economy",
+      "importance": 0.007414123739119825
+    },
+    {
+      "feature": "runs_conceded",
+      "importance": 0.006071357109832956
+    },
+    {
+      "feature": "balls_bowled",
+      "importance": 0.005171622895464222
+    },
+    {
+      "feature": "maidens",
+      "importance": 0.0005180546146754567
+    }
+  ],
+  "train_rows": 20503,
+  "test_rows": 5149,
+  "top1_accuracy": 0.5395348837209303,
+  "positive_rate": 0.0458469492269424
+}
