@@ -46,8 +46,15 @@ def load_bowling() -> pd.DataFrame:
 
 
 @st.cache_data(ttl=CACHE_TTL, show_spinner="Loading ball-by-ball data...")
-def load_deliveries(season: int | None = None) -> pd.DataFrame:
-    return repo.load_deliveries(season)
+def load_deliveries(
+    season: int | None = None, match_ids: tuple[int, ...] | None = None
+) -> pd.DataFrame:
+    """Ball-by-ball rows, optionally bounded.
+
+    ``match_ids`` is a tuple rather than a list so Streamlit can hash it for
+    the cache key.
+    """
+    return repo.load_deliveries(season, match_ids)
 
 
 @st.cache_data(ttl=CACHE_TTL, show_spinner="Loading squads...")

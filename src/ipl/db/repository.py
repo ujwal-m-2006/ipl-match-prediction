@@ -13,7 +13,7 @@ Two responsibilities:
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Iterable
+from typing import Any, Iterable, Sequence
 
 import pandas as pd
 from sqlalchemy import delete, func, select, text
@@ -408,8 +408,16 @@ def load_bowling() -> pd.DataFrame:
     return df
 
 
-def load_deliveries(season: int | None = None) -> pd.DataFrame:
-    """Return ball-by-ball data. Large -- pass ``season`` to bound the result."""
+def load_deliveries(
+    season: int | None = None, match_ids: Sequence[int] | None = None
+) -> pd.DataFrame:
+    """Return ball-by-ball data.
+
+    This is the largest table (~280k rows), so callers that need only part of it
+    should say so: ``season`` bounds it to one season, ``match_ids`` to specific
+    matches. Filtering in SQL rather than in pandas keeps the whole table from
+    being materialised in memory, which matters on a small host.
+    """
     sql = """
     SELECT
         d.match_id, d.innings_no, d.over_no, d.ball_no, d.ball_seq,
@@ -427,9 +435,21 @@ def load_deliveries(season: int | None = None) -> pd.DataFrame:
     LEFT JOIN players pw  ON pw.id  = d.bowler_id
     """
     params: dict[str, Any] = {}
+    clauses: list[str] = []
     if season is not None:
-        sql += " WHERE m.season = :season"
+        clauses.append("m.season = :season")
         params["season"] = season
+    if match_ids is not None:
+        ids = list(dict.fromkeys(int(m) for m in match_ids))
+        if not ids:
+            # An explicit empty selection means "nothing", not "everything".
+            return pd.DataFrame(columns=["match_id", "innings_no", "over_no"])
+        # Bind each id separately: SQLAlchemy's text() has no list parameter.
+        names = [f"mid{i}" for i in range(len(ids))]
+        clauses.append(f"d.match_id IN ({', '.join(':' + n for n in names)})")
+        params.update(dict(zip(names, ids)))
+    if clauses:
+        sql += " WHERE " + " AND ".join(clauses)
     sql += " ORDER BY d.match_id, d.innings_no, d.ball_seq"
 
     df = _read_sql(sql, params)

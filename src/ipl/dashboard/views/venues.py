@@ -156,14 +156,17 @@ def _detail(matches: pd.DataFrame, innings: pd.DataFrame) -> None:
 
     with right:
         st.subheader("Scoring by phase")
-        venue_match_ids = set(
+        venue_match_ids = tuple(
+            int(m) for m in
             matches[(matches["venue"] == venue) & matches["is_completed"]]["match_id"]
         )
-        deliveries = data.load_deliveries()
-        if deliveries.empty:
+        # Fetch only this ground's deliveries. Pulling all 280k rows and then
+        # filtering in pandas worked, but needlessly held the whole table in
+        # memory for a chart that needs a few thousand rows.
+        venue_deliveries = data.load_deliveries(match_ids=venue_match_ids)
+        if venue_deliveries.empty:
             st.caption("Ball-by-ball data was not ingested, so phase splits are unavailable.")
         else:
-            venue_deliveries = deliveries[deliveries["match_id"].isin(venue_match_ids)]
             phases = venue_phase_profile(venue_deliveries)
             if phases.empty:
                 st.caption("No ball-by-ball data for this ground.")

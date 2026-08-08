@@ -24,9 +24,12 @@ data/*.db
 data/*.sqlite
 data/*.sqlite3
 
-# ...except the slimmed deployment database. Hosted platforms with an ephemeral
-# filesystem cannot run the ingest, so this one copy ships with the repository.
-# Rebuild it with `python scripts/build_deploy_db.py`.
+# ...except the two databases that ship with the project, so a clone is
+# immediately usable without a 20-minute ingest:
+#   ipl.db        the full warehouse, including all 280k deliveries (~46 MB)
+#   ipl_deploy.db a slim copy without deliveries, for memory-limited hosts
+# Rebuild the slim one with `python scripts/build_deploy_db.py`.
+!data/ipl.db
 !data/ipl_deploy.db
 *.db-journal
 
